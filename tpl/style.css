@@ -1,0 +1,49 @@
+.container { margin: 30px auto; }
+
+header.main h1 { margin: 0 0 30px 0; font-size: 60px; }
+
+.tasks .task td { white-space: nowrap; width: 1%; }
+.tasks .task td.content { width: 95%; white-space: normal; }
+
+.tasks .task .glyphicon { cursor: pointer; }
+.tasks .task .glyphicon-edit { opacity: 0.5; }
+.tasks .task .glyphicon-remove { opacity: 0.25; }
+.tasks .task:hover .glyphicon { opacity: 1; }
+
+.tasks .task.done td { color: #999; }
+
+.subpanel { background: #F9F9F9; border: 1px solid #DDD; margin: 0 0 10px 0; border-radius: 3px; padding: 10px; }
+
+#taskListForm { margin: 20px 0 20px 0; }
+h1 { margin: 0 0 20px 0; line-height: 100%; }
+
+.hero-unit { font-size: 18px; padding: 30px; background: rgb(238,238,238); border-radius: 6px; margin: 0 0 30px 0; }
+.hero-unit h1 { font-size: 48px; margin: 0 0 20px 0; }
+.hero-unit .form-horizontal .control-label { padding-top: 3px; }
+.hero-unit p { margin-top: 0; }
+
+.login-row-2 .hero-unit { min-height: 350px; }
+
+.projects a,
+.contexts a { width: 32%; float: left; margin: 0 1% -1px 0; }
+
+.tasks .task textarea { height: 34px; }
+.tasks .task textarea { height: 5em; font-size: 18px; padding: 2px; }
+
+@media (max-width: 768px) {
+	.tasks .task td { padding: 10px 5px; font-size: 18px; }
+	.tasks .task .input-group-btn { display: block !important; float: none; }
+	.tasks .task .input-group { width: 100%; }
+	.tasks .task textarea { height: 10em; font-size: 18px; padding: 2px; }
+}
+@media (min-width: 768px) and (max-width: 992px) {
+
+}
+@media (min-width: 992px) and (max-width: 1200px) {
+
+}
+@media (min-width: 1200px) {
+}
+
+.swipeControl { cursor: pointer; display: block; font-size: 24px !important; padding: 2px 0; }
+dl dd { margin: 0 0 10px 0; }
