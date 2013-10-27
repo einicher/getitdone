@@ -1,7 +1,10 @@
 Get it done.
 ============
-
 Gid is a simple open source todo.txt web service project on http://getitdone.setanodus.net.
+
+Install
+-------
+Gid has to be installed as a component of https://github.com/einicher/scs
 
 License:
 --------
