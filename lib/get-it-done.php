@@ -3,6 +3,36 @@
 	{
 		function __construct()
 		{
+			if (!$this->d->checkForTable('tasks')) {
+				$this->d->query('
+					CREATE TABLE `#_tasks` (
+						`id` int(11) NOT NULL AUTO_INCREMENT,
+						`uid` int(11) NOT NULL,
+						`list` int(11) NOT NULL,
+						`priority` varchar(1) NOT NULL,
+						`created` datetime NOT NULL,
+						`content` text NOT NULL,
+						`projects` varchar(255) NOT NULL,
+						`contexts` varchar(255) NOT NULL,
+						`due` datetime NOT NULL,
+						`done` datetime NOT NULL,
+						PRIMARY KEY (`id`)
+					) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+				');
+			}
+
+			if (!$this->d->checkForTable('lists')) {
+				$this->d->query('
+					CREATE TABLE `#_lists` (
+						`id` int(11) NOT NULL AUTO_INCREMENT,
+						`uid` int(11) NOT NULL,
+						`name` varchar(255) NOT NULL,
+						`created` int(11) NOT NULL,
+						PRIMARY KEY (`id`)
+					) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+				');
+			}
+
 			$this->link->assign('getItDone', '', array(&$this, 'index'));
 			$this->link->assign('getItDone.export', 'export', array(&$this, 'index'), 'getItDone', true);
 
@@ -27,7 +57,7 @@
 			$this->link->assign('getItDone.api', 'api', array(&$this, 'api'), '', true);
 			$this->link->assign('getItDone.ajax', 'get-it-done-ajax-api', array(&$this, 'getAjax'), '', true);
 
-			$this->o->connect('scs.runLoop', 'runLoop', &$this);
+			$this->o->connect('scs.runLoop', 'runLoop', $this);
 
 			if (isset(Users::$user->settings->language)) {
 				Scs_Language::$language = Users::$user->settings->language;
