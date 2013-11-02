@@ -27,7 +27,7 @@
 			$this->link->assign('getItDone.api', 'api', array(&$this, 'api'), '', true);
 			$this->link->assign('getItDone.ajax', 'get-it-done-ajax-api', array(&$this, 'getAjax'), '', true);
 
-			$this->o->connect('scs.runLoop', 'runLoop', &$this);
+			$this->o->connect('scs.runLoop', 'runLoop', $this);
 
 			if (isset(Users::$user->settings->language)) {
 				Scs_Language::$language = Users::$user->settings->language;

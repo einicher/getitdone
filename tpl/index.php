@@ -6,14 +6,14 @@
 		<!--[if lt IE 9]>
 		<script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-		<link rel="stylesheet" type="text/css" href="<?=$this->link->getHome('scs-resources/bootstrap/css/bootstrap.min.css')?>" />
-		<link rel="stylesheet" type="text/css" href="<?=$this->link->getHome('scs-resources/jquery-ui-git.css')?>" />
-		<link rel="stylesheet" type="text/css" href="<?=$this->link->getHome('style.css')?>" />
-		<script src="<?=$this->link->getHome('scs-resources/jquery-1.8.3.min.js')?>" type="text/javascript"></script>
-		<script src="<?=$this->link->getHome('scs-resources/jquery-ui-git.js')?>" type="text/javascript"></script>
-		<script src="<?=$this->link->getHome('scs-resources/jquery.touchSwipe.min.js')?>" type="text/javascript"></script>
-		<script src="<?=$this->link->getHome('scs-components/get-it-done/tpl/triggered-autocomplete.js')?>" type="text/javascript"></script>
-		<script type="text/javascript" src="<?=$this->link->getHome('scs-resources/bootstrap/js/bootstrap.min.js')?>"></script>
+		<link rel="stylesheet" type="text/css" href="<?=$this->link->getRoot('scs-resources/bootstrap/css/bootstrap.min.css')?>" />
+		<link rel="stylesheet" type="text/css" href="<?=$this->link->getRoot('scs-resources/jquery-ui-git.css')?>" />
+		<link rel="stylesheet" type="text/css" href="<?=$this->link->getRoot('style.css')?>" />
+		<script src="<?=$this->link->getRoot('scs-resources/jquery-1.8.3.min.js')?>" type="text/javascript"></script>
+		<script src="<?=$this->link->getRoot('scs-resources/jquery-ui-git.js')?>" type="text/javascript"></script>
+		<script src="<?=$this->link->getRoot('scs-resources/jquery.touchSwipe.min.js')?>" type="text/javascript"></script>
+		<script src="<?=$this->link->getRoot('scs-components/get-it-done/tpl/triggered-autocomplete.js')?>" type="text/javascript"></script>
+		<script type="text/javascript" src="<?=$this->link->getRoot('scs-resources/bootstrap/js/bootstrap.min.js')?>"></script>
     	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
     	<script type="text/javascript">
 			function escapeHtml(text)
@@ -32,7 +32,7 @@
 <? if (empty(Users::$user)) : ?>
 
 			<header class="main">
-				<h1><a href="<?=$this->link->getHome()?>"><?=$this->conf->name?></a></h1>
+				<h1><a href="<?=$this->link->getRoot()?>"><?=$this->conf->name?></a></h1>
 			</header>
 
 <? else : ?>
@@ -45,13 +45,13 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="<?=$this->link->getHome()?>"><?=$this->conf->name?></a>
+					<a class="navbar-brand" href="<?=$this->link->getRoot()?>"><?=$this->conf->name?></a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav">
-						<li<?=$this->link->isActive('getItDone') ? 'class="active"' : '' ?>><a href="<?=$this->link->getHome()?>"><span class="glyphicon glyphicon-home"></span> <?=§('Home')?></a></li>
+						<li<?=$this->link->isActive('getItDone') ? 'class="active"' : '' ?>><a href="<?=$this->link->getRoot()?>"><span class="glyphicon glyphicon-home"></span> <?=§('Home')?></a></li>
 						<li class="dropdown">
 							<a href="<?=$this->link->get('getItDone.lists')?>" class="dropdown-toggle" style="display: inline-block; padding-right: 0;"><span class="glyphicon glyphicon-list"></span> <?=§('Lists')?></a><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="display: inline-block; padding-left: 5px;">
 								<b class="caret"></b>
@@ -97,7 +97,7 @@
 			<hr class="featurette-divider">
 
 			<footer>
-				<p class="pull-right"><a href="<?=$this->link->getHome()?>"><?=§('Home')?></a> | <a href="#"><?=§('Back to top')?></a></p>
+				<p class="pull-right"><a href="<?=$this->link->getRoot()?>"><?=§('Home')?></a> | <a href="#"><?=§('Back to top')?></a></p>
 				<p>© <?=date('Y')?> <a href="http://einicher.net">einicher.net</a>
 			</footer>
 		</div>
