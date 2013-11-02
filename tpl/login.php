@@ -14,7 +14,7 @@
 					<div class="hero-unit">
 						<h1><?=§('Login')?></h1>
 <? if ($login === false) : ?>
-						<p class="alert alert-error"><?=§('Wrong email or password.')?></p>
+						<p class="alert alert-danger"><?=§('Wrong email or password.')?></p>
 <? endif; ?>
 
 						<form method="post" action="" class="form-horizontal">
@@ -55,7 +55,7 @@
 						<h1><?=§('Sign up')?></h1>
 <? if (empty($signUp) || $signUp === false) : ?>
 	<? if ($signUp === false) : ?>
-						<p class="alert alert-error"><?=§('Email %s already exists.', '<b>'.$_POST['signUpEmail'].'</b>')?> <a href="<?=$this->link->get('users.password')?>"><?=§('Forgot your password?')?></a></p>
+						<p class="alert alert-danger"><?=§('Email %s already exists.', '<b>'.$_POST['signUpEmail'].'</b>')?> <a href="<?=$this->link->get('users.password')?>"><?=§('Forgot your password?')?></a></p>
 	<? endif; ?>
 						<p><?=§('Sign up here for free by entering a valid email address. An automatically generated password will be sent to you with which you can log in and get started immediately.')?></p>
 						<br />

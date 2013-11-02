@@ -69,14 +69,6 @@
 						<li><a href="<?=$this->link->get('getItDone.contexts')?>"><span style="color: #000;">@</span> <?=§('Contexts')?></a></li>
 						<li><a href="<?=$this->link->get('getItDone.syntax')?>"><span class="glyphicon glyphicon-barcode"></span> <?=§('Syntax')?></a></li>
 					</ul>
-					<?/*
-					<form class="navbar-form navbar-left" role="search">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Search">
-						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
-					</form>
-					*/?>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?=Users::$user->email?> <b class="caret"></b></a>
