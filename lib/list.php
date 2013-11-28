@@ -98,7 +98,7 @@
 			));
 		}
 
-		function detectProjects($t)
+		static public function detectProjects($t)
 		{
 			$return = '';
 			preg_match_all('/\+([^\s]+)/', $t, $r);
@@ -108,7 +108,7 @@
 			return $return;
 		}
 
-		function detectContexts($t)
+		static public function detectContexts($t)
 		{
 			$return = '';
 			preg_match_all('/\@([^\s]+)/', $t, $r);
@@ -118,7 +118,7 @@
 			return $return;
 		}
 
-		function detectPriority($t)
+		static public function detectPriority($t)
 		{
 			$return = '';
 			if (substr($t, 0, 1) == '(' && substr($t, 2, 1) == ')') {
@@ -127,7 +127,7 @@
 			return $return;
 		}
 
-		function detectDue($t)
+		static public function detectDue($t)
 		{
 			$return = '';
 			preg_match('/DUE:([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', $t, $r);
@@ -142,12 +142,12 @@
 			return $return;
 		}
 
-		function removeDoneTag($t)
+		static public function removeDoneTag($t)
 		{
 			return preg_replace('/DONE:([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', '', $t);
 		}
 
-		function detectCreated($t, $customStamp = '')
+		static public function detectCreated($t, $customStamp = '')
 		{
 			$content = $t;
 			preg_match('/^([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', $t, $r);
@@ -179,7 +179,7 @@
 			return array($content, $created);
 		}
 
-		function detectSyntax($text)
+		static public function detectSyntax($text)
 		{
 			$text = trim($text);
 			$text = preg_replace('/^([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', '', $text);
@@ -187,8 +187,8 @@
 			$text = preg_replace('/^([0-9]*-[0-9]*-[0-9]*)/', '', $text);
 			$text = preg_replace('/^(\([A-Z]\)*) ([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', '\\1 ', $text);
 			$text = preg_replace('/^(\([A-Z]\)*) ([0-9]*-[0-9]*-[0-9]*)/', '\\1 ', $text);
-			$text = preg_replace('/@([^\s]+)/', '<a href="'.$this->link->get('getItDone.contexts.context', '\\1').'" class="label label-warning" title="'.§('Context').'">\\1</a>', $text);
-			$text = preg_replace('/\+([^\s]+)/', '<a href="'.$this->link->get('getItDone.projects.project', '\\1').'" class="label label-info" title="'.§('Project').'">\\1</a>', $text);
+			$text = preg_replace('/@([^\s]+)/', '<a href="'.Scs_Link::instance()->get('getItDone.contexts.context', '\\1').'" class="label label-warning" title="'.§('Context').'">\\1</a>', $text);
+			$text = preg_replace('/\+([^\s]+)/', '<a href="'.Scs_Link::instance()->get('getItDone.projects.project', '\\1').'" class="label label-info" title="'.§('Project').'">\\1</a>', $text);
 			$text = preg_replace('/^\(([A-Z])\)/', '<a href="" class="label label-danger" title="'.§('Priority').'">\\1</a>', $text);
 			$text = preg_replace('/DONE:([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', '<span class="label label-default" title="'.§('Done on %s at %s', '\\1', '\\2').'">\\1 \\2</span>', $text);
 			$text = preg_replace('/DONE:([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*)/', '<span class="label label-default" title="'.§('Done on %s at %s', '\\1', '\\2').'">\\1 \\2</span>', $text);

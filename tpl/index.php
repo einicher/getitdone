@@ -51,7 +51,7 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav">
-						<li<?=$this->link->isActive('getItDone') ? 'class="active"' : '' ?>><a href="<?=$this->link->getRoot()?>"><span class="glyphicon glyphicon-home"></span> <?=§('Home')?></a></li>
+						<li<?=$this->link->isActive('getItDone') ? ' class="active"' : '' ?>><a href="<?=$this->link->getRoot()?>"><span class="glyphicon glyphicon-home"></span> <?=§('Home')?></a></li>
 						<li class="dropdown">
 							<a href="<?=$this->link->get('getItDone.lists')?>" class="dropdown-toggle" style="display: inline-block; padding-right: 0;"><span class="glyphicon glyphicon-list"></span> <?=§('Lists')?></a><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="display: inline-block; padding-left: 5px;">
 								<b class="caret"></b>

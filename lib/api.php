@@ -20,7 +20,7 @@
 			}
 		}
 
-		function saveTask($content, $id = 0, $list = 0)
+		static public function saveTask($content, $id = 0, $list = 0)
 		{
 			$d = Scs_Database::instance();
 			$projects = GetItDone_List::detectProjects($content);
