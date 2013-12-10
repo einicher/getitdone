@@ -37,5 +37,30 @@
 			}
 			return $list->view($levels, $level);
 		}
+
+		function rename($levels, $level)
+		{
+			$project = urldecode($levels[2]);
+			if (!empty($_POST['formProjectRenameNonce'])) {
+				$new = $_POST['name'];
+				$q = $this->d->query('SELECT * FROM `#_tasks` WHERE FIND_IN_SET("'.$this->d->escape($project).'", projects)');
+				while ($f = $q->fetch_object()) {
+					$f->content = preg_replace('/\+'.$project.'/iU', '+'.$new, $f->content);
+					$f->projects = explode(',', $f->projects);
+					foreach ($f->projects as $k => $v) {
+						if (strtolower($v) == strtolower($project)) {
+							$f->projects[$k] = $new;
+						}
+					}
+					$f->projects = implode(',', $f->projects);
+					$this->d->prepared('UPDATE `#_tasks` SET content=?, projects=? WHERE id=?', 'ssi', $f->content, $f->projects, $f->id);
+				}
+				header('Location: '.$this->link->get('getItDone.projects.project', urlencode($new)));
+				exit;
+			}
+			return $this->t->get('project-rename.php', array(
+				'project' => $project
+			));
+		}
 	}
 ?>

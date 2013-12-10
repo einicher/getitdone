@@ -1,6 +1,16 @@
 <div id="taskList">
 
+<? if (!empty($list->id)) : ?>
 <a href="<?=$this->link->get('getItDone.lists.list.edit', $list->id)?>" class="btn btn-default pull-right"><?=§('Edit')?></a>
+<? endif; ?>
+
+<? if (!empty($list->project)) : ?>
+<a href="<?=$this->link->get('getItDone.projects.project.rename', $list->project)?>" class="btn btn-default pull-right"><?=§('Rename project')?></a>
+<? endif; ?>
+
+<? if (!empty($list->context)) : ?>
+<a href="<?=$this->link->get('getItDone.contexts.context.rename', $list->context)?>" class="btn btn-default pull-right"><?=§('Rename context')?></a>
+<? endif; ?>
 
 <h1><?
 

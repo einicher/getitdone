@@ -37,5 +37,31 @@
 			}
 			return $list->view($levels, $level);
 		}
+
+		function rename($levels, $level)
+		{
+			$context = urldecode($levels[2]);
+			if (!empty($_POST['formContextRenameNonce'])) {
+				$new = $_POST['name'];
+				$q = $this->d->query('SELECT * FROM `#_tasks` WHERE FIND_IN_SET("'.$this->d->escape($context).'", contexts)');
+				while ($f = $q->fetch_object()) {
+					echo µ($f);
+					$f->content = preg_replace('/\@'.$context.'/iU', '@'.$new, $f->content);
+					$f->contexts = explode(',', $f->contexts);
+					foreach ($f->contexts as $k => $v) {
+						if (strtolower($v) == strtolower($context)) {
+							$f->contexts[$k] = $new;
+						}
+					}
+					$f->contexts = implode(',', $f->contexts);
+					$this->d->prepared('UPDATE `#_tasks` SET content=?, contexts=? WHERE id=?', 'ssi', $f->content, $f->contexts, $f->id);
+				}
+				header('Location: '.$this->link->get('getItDone.contexts.context', urlencode($new)));
+				exit;
+			}
+			return $this->t->get('context-rename.php', array(
+				'context' => $context
+			));
+		}
 	}
 ?>

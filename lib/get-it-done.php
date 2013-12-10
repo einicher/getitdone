@@ -40,10 +40,12 @@
 			$this->link->assign('getItDone.projects.project', '*', array('GetItDone_Projects::instance', 'project'), 'getItDone.projects');
 			$this->link->assign('getItDone.projects.project.export', 'export', array('GetItDone_Projects::instance', 'project'), 'getItDone.projects.project');
 			$this->link->assign('getItDone.projects.project.edit', 'export', array('GetItDone_Projects::instance', 'edit'), 'getItDone.projects.project');
+			$this->link->assign('getItDone.projects.project.rename', 'rename', array('GetItDone_Projects::instance', 'rename'), 'getItDone.projects.project');
 
 			$this->link->assign('getItDone.contexts', 'contexts', array('GetItDone_Contexts::instance', 'contexts'), 'getItDone');
 			$this->link->assign('getItDone.contexts.context', '*', array('GetItDone_Contexts::instance', 'context'), 'getItDone.contexts');
 			$this->link->assign('getItDone.contexts.context.export', 'export', array('GetItDone_Contexts::instance', 'context'), 'getItDone.contexts.context');
+			$this->link->assign('getItDone.contexts.context.rename', 'rename', array('GetItDone_Contexts::instance', 'rename'), 'getItDone.contexts.context');
 
 			$this->link->assign('getItDone.lists', 'lists', array('GetItDone_Lists::instance', 'lists'), 'getItDone');
 			$this->link->assign('getItDone.lists.create', 'create', array('GetItDone_Lists::instance', 'createList'), 'getItDone.lists');
