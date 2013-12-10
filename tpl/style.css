@@ -1,6 +1,10 @@
 .container { margin: 30px auto; }
 
 header.main h1 { margin: 0 0 30px 0; font-size: 60px; }
+.navbar-inverse { background: #2a0054; }
+.navbar-inverse .navbar-brand { color: #FFF; }
+.navbar-inverse .navbar-nav > li > a,
+.navbar-inverse .navbar-nav > li > a span { color: #cdbfe3; }
 
 .tasks .task td { white-space: nowrap; width: 1%; }
 .tasks .task td.content { width: 95%; white-space: normal; }
@@ -13,6 +17,7 @@ header.main h1 { margin: 0 0 30px 0; font-size: 60px; }
 .tasks .task.done td { color: #999; }
 
 .subpanel { background: #F9F9F9; border: 1px solid #DDD; margin: 0 0 10px 0; border-radius: 3px; padding: 10px; }
+.subpanel * { font-size: 12px; }
 
 #taskListForm { margin: 20px 0 20px 0; }
 h1 { margin: 0 0 20px 0; line-height: 100%; }
@@ -35,6 +40,8 @@ h1 { margin: 0 0 20px 0; line-height: 100%; }
 	.tasks .task .input-group-btn { display: block !important; float: none; }
 	.tasks .task .input-group { width: 100%; }
 	.tasks .task textarea { height: 10em; font-size: 18px; padding: 2px; }
+	.projects a,
+	.contexts a { width: auto; float: none; margin: 0 0 -1px 0; }
 }
 @media (min-width: 768px) and (max-width: 992px) {
 

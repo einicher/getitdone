@@ -25,6 +25,14 @@
 					.replace(/"/g, "&quot;")
 					.replace(/'/g, "&#039;");
 			}
+    		jQuery.datepicker.setDefaults({
+    			firstDay: 1,
+    			showWeek: 1,
+    			dateFormat: 'yy-mm-dd',
+    			prevText: '«',
+    			nextText: '»',
+				constrainInput: false
+    		});
     	</script>
 	</head>
 	<body>
@@ -36,7 +44,7 @@
 			</header>
 
 <? else : ?>
-			<nav class="navbar navbar-default" role="navigation">
+			<nav class="navbar navbar-inverse" role="navigation">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -45,7 +53,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="<?=$this->link->getRoot()?>"><?=$this->conf->name?></a>
+					<a class="navbar-brand" href="<?=$this->link->getRoot()?>"><span class="glyphicon glyphicon-ok" style="font-size: 15px;"></span> <?=$this->conf->name?></a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -66,7 +74,7 @@
 							</ul>
 						</li>
 						<li><a href="<?=$this->link->get('getItDone.projects')?>"><span class="glyphicon glyphicon-plus"></span> <?=§('Projects')?></a></li>
-						<li><a href="<?=$this->link->get('getItDone.contexts')?>"><span style="color: #000;">@</span> <?=§('Contexts')?></a></li>
+						<li><a href="<?=$this->link->get('getItDone.contexts')?>"><span>@</span> <?=§('Contexts')?></a></li>
 						<li><a href="<?=$this->link->get('getItDone.syntax')?>"><span class="glyphicon glyphicon-barcode"></span> <?=§('Syntax')?></a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">

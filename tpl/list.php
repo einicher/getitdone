@@ -28,35 +28,43 @@
 <? endif; ?>
 </div>
 
-<form id="taskListForm" method="post" action="" class="form-inline">
-	<div class="input-group">
-		<input type="text" name="listNewTask" id="listNewTask" class="form-control" placeholder="<?=§('Enter your to do here and hit return..')?>" value="<?=$listNewTask?>" autofocus="autofocus">
-		<span class="input-group-btn">
-			<button id="deadlineButton" class="btn btn-default btn-default" type="button"><?=§('Deadline')?></button>
-			<button class="btn btn-default btn-primary" type="submit"><?=§('Add')?></button>
-		</span>
+<form id="taskListForm" method="post" action="" class="form-inline hidden-print clearfix">
+	<textarea name="listNewTask" id="listNewTask" class="form-control" style="display: block; width: 100%;" rows="3" placeholder="<?=§('Enter your to do here and hit return..')?>" autofocus="autofocus"><?=$listNewTask?></textarea>
+	<table class="input-group" width="100%">
+		<tr>
+			<td><button id="deadlineButton" class="btn btn-default form-control" type="button"><?=§('Deadline')?></button></td>
+			<td><button class="btn btn-primary form-control" type="submit"><?=§('Add')?></button></td>
+		</tr>
+	</table>
+	<div class="form-group" style="margin: 0; line-height: 0;">
+		<input type="text" id="datepickerSucksTop" style="height: 0; padding: 0; border: 0;" />
 	</div>
 	<script type="text/javascript">
-		jQuery('#listNewTask').datepicker({
-			dateFormat: 'yy-mm-dd',
+		jQuery('#datepickerSucksTop').datepicker({
 			showOn: 'none',
 			constrainInput: false,
-			showWeek: true,
 			onSelect: function(date) {
-				jQuery(this).val(this.cacheValue + ' DUE:' + date);
+				jQuery('#listNewTask').val(this.cacheValue.replace(/ DUE:.*-.*-.* .*:.*:.*/g, '').replace(/ DUE:.*-.*-.* .*:.*/g, '').replace(/ DUE:.*-.*-.*/g, '') + ' DUE:' + date);
 			},
 			beforeShow: function(i) {
-				this.cacheValue = i.value;
-			},
-			firstDay: 1
+				this.cacheValue = jQuery('#listNewTask').val();
+				console.log(this.cacheValue);
+				var m = this.cacheValue.match(/DUE:([0-9]*-[0-9]*-[0-9]*)/g);
+				if (m) {
+					m = m[0].replace('DUE:','');
+					console.log(m);
+					jQuery(this).datepicker('setDate', m);
+				}
+			}
 		});
-		el = jQuery('#listNewTask').get(0);
-		elemLen = el.value.length;
-		el.selectionStart = elemLen;
-		el.selectionEnd = elemLen;
-		el.focus();
 		jQuery('#deadlineButton').click(function() {
-			jQuery('#listNewTask').datepicker('show');
+			jQuery('#datepickerSucksTop').datepicker('show');
+		});
+		jQuery('#listNewTask').keydown(function(e) {
+			if (e.keyCode == 13) {
+				jQuery('#taskListForm').submit();
+				return false;
+			}
 		});
 	</script>
 </form>
@@ -149,6 +157,13 @@
 			if (e.keyCode == 13) {
 				save();
 				return false;
+			}
+		});
+
+		jQuery('textarea', tr).triggeredAutocomplete({
+			sources: {
+				'+': '<?=$this->link->get('getItDone.ajax')?>/suggest-projects',
+				'@': '<?=$this->link->get('getItDone.ajax')?>/suggest-contexts'
 			}
 		});
 
