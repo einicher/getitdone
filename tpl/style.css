@@ -1,10 +1,9 @@
-.container { margin: 30px auto; }
+.container { margin: 0 auto; }
+
+.container.home { margin: 30px auto 0 auto; }
 
 header.main h1 { margin: 0 0 30px 0; font-size: 60px; }
-.navbar-inverse { background: #2a0054; }
 .navbar-inverse .navbar-brand { color: #FFF; }
-.navbar-inverse .navbar-nav > li > a,
-.navbar-inverse .navbar-nav > li > a span { color: #cdbfe3; }
 
 .tasks .task td { white-space: nowrap; width: 1%; }
 .tasks .task td.content { width: 95%; white-space: normal; }

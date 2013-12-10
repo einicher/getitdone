@@ -66,7 +66,11 @@
 
 		function runLoop($return, $path)
 		{
-			if (empty(Users::$user->id) && substr($path, 0, 3) != 'api' && substr($path, 0, 8) != 'password') {
+			if (empty(Users::$user->id)
+				&& substr($path, 0, 3) != 'api'
+				&& substr($path, 0, 8) != 'password'
+				&& substr($path, 0, 6) != 'syntax'
+			) {
 				return false;
 			} else {
 				return true;
@@ -78,6 +82,7 @@
 			if (empty(Users::$user)
 			 && $levels[0] != Scs_Link::$assignments['users.preferences.password']['link']
 			 && $levels[0] != Scs_Link::$assignments['getItDone.api']['link']
+			 && @$levels[1] != Scs_Link::$assignments['getItDone.syntax']['link']
 			) {
 				$signUp = '';
 				$login = '';
