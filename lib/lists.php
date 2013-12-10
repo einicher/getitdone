@@ -60,6 +60,19 @@
 			return $this->t->get('form-list.php');
 		}
 
+		function editList($levels, $level)
+		{
+			if (!empty($_POST['formListNonce'])) {
+				$this->d->prepared('UPDATE `#_lists` SET name=? WHERE id=?', 'si', $_POST['name'], $levels[2]);
+				header('Location: '.$this->link->get('getItDone.lists.list', $levels[2]));
+				exit;
+			}
+			$lists = $this->d->get('SELECT * FROM `#_lists` WHERE id='.$levels[2]);
+			return $this->t->get('form-list.php', array(
+				'list' => $lists[0]
+			));
+		}
+
 		function import($levels, $level)
 		{
 			$error = '';

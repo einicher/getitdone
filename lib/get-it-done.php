@@ -50,6 +50,7 @@
 			$this->link->assign('getItDone.lists.import', 'import', array('GetItDone_Lists::instance', 'import'), 'getItDone.lists');
 			$this->link->assign('getItDone.lists.list', '*', array('GetItDone_Lists::instance', 'getList'), 'getItDone.lists');
 			$this->link->assign('getItDone.lists.list.export', 'export', array('GetItDone_Lists::instance', 'getList'), 'getItDone.lists.list');
+			$this->link->assign('getItDone.lists.list.edit', 'edit', array('GetItDone_Lists::instance', 'editList'), 'getItDone.lists.list');
 			$this->link->assign('getItDone.lists.list.delete', 'delete', array('GetItDone_Lists::instance', 'getList'), 'getItDone.lists.list');
 
 			$this->link->assign('getItDone.syntax', 'syntax', array(&$this, 'syntax'), 'getItDone');
@@ -80,8 +81,8 @@
 		function processOutput($content, $levels, $level)
 		{
 			if (empty(Users::$user)
-			 && $levels[0] != Scs_Link::$assignments['users.preferences.password']['link']
-			 && $levels[0] != Scs_Link::$assignments['getItDone.api']['link']
+			 && @$levels[1] != Scs_Link::$assignments['users.preferences.password']['link']
+			 && @$levels[1] != Scs_Link::$assignments['getItDone.api']['link']
 			 && @$levels[1] != Scs_Link::$assignments['getItDone.syntax']['link']
 			) {
 				$signUp = '';

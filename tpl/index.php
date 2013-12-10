@@ -54,8 +54,8 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li<?=$this->link->isActive('getItDone') ? ' class="active"' : '' ?>><a href="<?=$this->link->getRoot()?>"><span class="glyphicon glyphicon-home"></span> <?=§('Home')?></a></li>
-						<li><a href="<?=$this->link->get('getItDone.syntax')?>"><span class="glyphicon glyphicon-barcode"></span> <?=§('Syntax')?></a></li>
+						<li<?=$this->link->isActive('getItDone', true) ? ' class="active"' : '' ?>><a href="<?=$this->link->getRoot()?>"><span class="glyphicon glyphicon-home"></span> <?=§('Home')?></a></li>
+						<li<?=$this->link->isActive('getItDone.syntax') ? ' class="active"' : '' ?>><a href="<?=$this->link->get('getItDone.syntax')?>"><span class="glyphicon glyphicon-barcode"></span> <?=§('Syntax')?></a></li>
 					</ul>
 				</div><!-- /.navbar-collapse -->
 			</div>

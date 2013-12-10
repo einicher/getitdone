@@ -3,7 +3,7 @@
 <form method="post" action="" class="form">
 	<div class="form-group">
 		<label for="name"><?=§('Name')?></label>
-		<input type="text" name="name" id="name" class="form-control" value="" />
+		<input type="text" name="name" id="name" class="form-control" value="<?=@$list->name?>" />
 	</div>
 	<div class="form-group">
 		<div class="">

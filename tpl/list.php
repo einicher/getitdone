@@ -1,5 +1,7 @@
 <div id="taskList">
 
+<a href="<?=$this->link->get('getItDone.lists.list.edit', $list->id)?>" class="btn btn-default pull-right"><?=§('Edit')?></a>
+
 <h1><?
 
 	if ($list->isProject) :
