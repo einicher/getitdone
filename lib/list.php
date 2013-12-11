@@ -201,11 +201,6 @@
 			return $text;
 		}
 		
-		static function getLists()
-		{
-			return Scs_Database::instance()->get('SELECT * FROM `#_lists` WHERE uid='.Users::$user->id.' ORDER BY name DESC');
-		}
-		
 		function export()
 		{
 /*

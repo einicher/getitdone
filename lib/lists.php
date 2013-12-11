@@ -13,15 +13,23 @@
 
 		function lists($levels, $level)
 		{
-			$lists = $this->d->get('SELECT * FROM `#_lists`');	
+			$lists = self::getLists();	
 			return $this->t->get('lists.php', array(
 				'lists' => $lists
 			));
+		}
+		
+		static function getLists()
+		{
+			return Scs_Database::instance()->get('SELECT * FROM `#_lists` WHERE uid='.Users::$user->id.' ORDER BY name DESC');
 		}
 
 		function getList($levels, $level)
 		{
 			$list = new GetItDone_List(array('id' => $levels[2]));
+			if ($list->uid != Users::$user->id) {
+				return §('This list does not belong to you.');
+			}
 			if (isset($levels[3]) && $levels[3] == $this->link->getAssignment('getItDone.lists.list.export', 'link')) {
 				return $list->export();
 			}

@@ -97,11 +97,13 @@
 				<span class="glyphicon <?=$task->done > 0 ? 'glyphicon-repeat task-undone' : 'glyphicon-ok task-done' ?>" title="<?=$task->done > 0 ? §('Undone') : §('Done') ?>"></span>
 				<span class="task-edit glyphicon glyphicon-edit" title="<?=§('Edit')?>"></span>
 				<span class="task-remove glyphicon glyphicon-trash" title="<?=§('Delete')?>"></span>
+				<span class="task-move glyphicon glyphicon-export" title="<?=§('Move')?>"></span>
 			</td>
 			<td class="swipeControls" style="display: none;">
 				<div class="swipeControl task-done"><span class="glyphicon glyphicon-ok"></span> <?=§('Done')?></div>
 				<div class="swipeControl task-edit"><span class="glyphicon glyphicon-edit"></span> <?=§('Edit')?></div>
 				<div class="swipeControl task-remove"><span class="glyphicon glyphicon-trash"></span> <?=§('Delete')?></div>
+				<div class="swipeControl task-move"><span class="glyphicon glyphicon-export"></span> <?=§('Move')?></div>
 			</td>
 			<td class="content"><?=$list->detectSyntax($task->content)?></td>
 			<td class="created hidden-xs"><?=date(§('Y-m-d H:i'), strtotime($task->created))?></td>
@@ -124,7 +126,18 @@
 		<input type="text" name="datepickerSucks" style="height: 0; padding: 0; border: 0;" />
 	</div>
 </div>
-
+<div id="hiddenTaskMoveForm" style="display: none;">
+	<label for="moveTaskTo"><?=§('Move to')?></label>
+	<div class="form-group">
+		<select id="moveTaskTo" class="form-control">
+<? foreach (GetItDone_Lists::getLists() as $list) : ?>
+			<option value="<?=$list->id?>"><?=$list->name?></option>
+<? endforeach; ?>
+		</select>
+		<button name="cancel" class="btn btn-default" type="button"><?=§('Cancel')?></button>
+		<button name="submit" class="btn btn-primary" type="button"><?=§('Move')?></button>
+	</div>
+</div>
 <script type="text/javascript">
 	jQuery('#taskList table tr').swipe({
 		swipeLeft: mobileControls,
@@ -145,12 +158,14 @@
 		jQuery('table.tasks tr .task-remove').off('click');
 		jQuery('table.tasks tr .task-done').off('click');
 		jQuery('table.tasks tr .task-undone').off('click');
+		jQuery('table.tasks tr .task-move').off('click');
 
 		jQuery('table.tasks tr').dblclick(taskEditForm);
 		jQuery('table.tasks tr .task-edit').click(taskEditForm);
 		jQuery('table.tasks tr .task-remove').click(taskRemoveForm);
 		jQuery('table.tasks tr .task-done').click(taskDoneForm);
 		jQuery('table.tasks tr .task-undone').click(taskUndoneForm);
+		jQuery('table.tasks tr .task-move').click(taskMoveForm);
 	}
 	function taskEditForm()
 	{
@@ -277,6 +292,31 @@
 			taskEditFormControls();
 			jQuery('.swipeControls', tr).hide();
 			jQuery('.content', tr).show();
+		});
+	}
+	function taskMoveForm()
+	{
+		var tr = jQuery(this).parent().parent();
+		tr.off('dblclick');
+		var cache = tr.html();
+		var id = tr.attr('id').replace('task-', '');
+		tr.html('<td colspan="3">' + jQuery('#hiddenTaskMoveForm').html() + '</td>');
+		jQuery('button[name=cancel]', tr).click(function() {
+			tr.html(cache);
+			taskEditFormControls();
+			jQuery('.swipeControls', tr).hide();
+			jQuery('.content', tr).show();
+		});
+		jQuery('button[name=submit]', tr).click(function() {
+			jQuery.post('<?=$this->link->get('getItDone.ajax')?>/move-task-to/'+id, { list: jQuery('#moveTaskTo', tr).val() }, function(r) {
+				if (r == 'OK') {
+<? if (!empty($list->id)) : ?>
+					tr.remove();
+<? endif; ?>
+				} else {
+					alert(r);
+				}
+			});
 		});
 	}
 	taskEditFormControls();

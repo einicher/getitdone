@@ -202,6 +202,10 @@
 						}
 						return json_encode($cc);
 					break;
+					case 'move-task-to':
+						$this->d->prepared('UPDATE `#_tasks` SET list=? WHERE id=?', 'ii', $_POST['list'], $levels[3]);
+						return 'OK';
+					break;
 				}
 			}
 		}

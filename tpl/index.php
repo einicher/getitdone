@@ -85,7 +85,7 @@
 								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
-<? foreach (GetItDone_List::getLists() as $list) : ?>
+<? foreach (GetItDone_Lists::getLists() as $list) : ?>
 								<li><a href="<?=$this->link->get('getItDone.lists.list', $list->id)?>"><?=$list->name?></a></li>
 <? endforeach; ?>
 								<li class="divider"></li>
