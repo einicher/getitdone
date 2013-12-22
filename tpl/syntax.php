@@ -18,6 +18,6 @@
 </dl>
 <h2>Complete tasks</h2>
 <dl class="dl-horizontal">
-	<dt>DONE:2013-12-22 09:00</dt>
-	<dd>Completed tasks contain a DONE:date/time tag for now, this will change in the future. Completed tasks will start with a lowercase x letter followed by date/time of completion.<br />If recognized, task completion dates look like this: <span class="label label-default">2013-12-22</span> <span class="label label-default">2013-12-22 09:00</span> <span class="label label-default">2013-12-22 09:00:00</span></dd>
+	<dt>x 2013-12-22 09:00</dt>
+	<dd>Completed start with a lowercase x letter followed by date/time of completion.<br />If recognized, task completion dates look like this: <span class="label label-default">2013-12-22</span> <span class="label label-default">2013-12-22 09:00</span> <span class="label label-default">2013-12-22 09:00:00</span></dd>
 </dl>

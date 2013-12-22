@@ -144,12 +144,62 @@
 
 		static public function removeDoneTag($t)
 		{
-			return preg_replace('/DONE:([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', '', $t);
+			return trim(preg_replace('/DONE:([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', '', $t));
+		}
+
+		static public function detectDone($t, $set = false)
+		{
+			$x = false;
+			$done = '';
+			preg_match('/^(x) ([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', $t, $r);
+			if (!empty($r)) {
+				$x = true;
+				$done = $r[2].' '.$r[3];
+				$t = preg_replace('/^(x) ([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', '', $t);
+			} else {
+				preg_match('/^(x) ([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*)/', $t, $r);
+				if (!empty($r)) {
+					$x = true;
+					$done = $r[2].' '.$r[3];
+					$t = preg_replace('/^(x) ([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*)/', '', $t);
+				} else {
+					preg_match('/^(x) ([0-9]*-[0-9]*-[0-9]*)/', $t, $r);
+					if (!empty($r)) {
+						$x = true;
+						$done = $r[2].' 00:00:00';
+						$t = preg_replace('/^(x) ([0-9]*-[0-9]*-[0-9]*)/', '', $t);
+					} else {
+						preg_match('/^(x) /', $t, $r);
+						if (!empty($r)) {
+							$x = true;
+							$done = '';
+							$t = preg_replace('/^(x) /', '', $t);
+						} else {
+
+						}
+					}
+				}
+			}
+
+			if ($set) {
+				if (empty($done)) {
+					$done = date('Y-m-d').' '.date('H:i:s');
+					$x = true;
+				}
+				$content = 'x '.$done.' '.$t;
+			} else {
+				$content = $t;
+			}
+
+			return array(trim($content), $done, $x);
 		}
 
 		static public function detectCreated($t, $customStamp = '')
 		{
+			$done = self::detectDone($t, false);
+			$t = $done[0];
 			$content = $t;
+
 			preg_match('/^([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', $t, $r);
 			if (!empty($r)) {
 				$created = $r[1].' '.$r[2];
@@ -176,12 +226,23 @@
 					}
 				}
 			}
-			return array($content, $created);
+
+			if (!empty($done[2])) {
+				if (!empty($done[1])) {
+					$content = $done[1].' '.$content;
+				}
+				$content = 'x '.$content;
+			}
+
+			return array($content, $created, $done[1]);
 		}
 
 		static public function detectSyntax($text)
 		{
 			$text = trim($text);
+			$text = preg_replace('/^(x) ([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', '<span class="label label-default" title="'.§('Done on %s at %s', '\\2', '\\3').'">x \\2 \\3</span>', $text);
+			$text = preg_replace('/^(x) ([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*)/', '<span class="label label-default" title="'.§('Done on %s at %s', '\\2', '\\3').'">x \\2 \\3</span>', $text);
+			$text = preg_replace('/^(x) ([0-9]*-[0-9]*-[0-9]*)/', '<span class="label label-default" title="'.§('Done on %s', '\\2').'">x \\2</span>', $text);
 			$text = preg_replace('/^([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*:[0-9]*)/', '', $text);
 			$text = preg_replace('/^([0-9]*-[0-9]*-[0-9]*) ([0-9]*:[0-9]*)/', '', $text);
 			$text = preg_replace('/^([0-9]*-[0-9]*-[0-9]*)/', '', $text);
@@ -200,14 +261,9 @@
 			$text = preg_replace('/DUE:([0-9]*)/', '<span class="label label-danger" title="'.§('Due on %s at %s', '\\1', '\\2').'">\\1 \\2</span>', $text);
 			return $text;
 		}
-		
+
 		function export()
 		{
-/*
-			header('Content-type: text/plain; charset=UTF-8');
-			echo µ($this);
-			exit;
-*/
 			header('content-type: application/octet-stream');
 			header('content-disposition: attachment; filename="'.$this->link->transform($this->name).'-'.date('Ymd-His').'.txt"');
 			ob_implicit_flush(true);

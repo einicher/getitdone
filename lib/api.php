@@ -29,14 +29,15 @@
 			$due = GetItDone_List::detectDue($content);
 			$created = GetItDone_List::detectCreated($content);
 			$content = $created[0];
+			$done = $created[2];
 			$created = $created[1];
 			if (empty($id)) {
-				$e = $d->prepared('INSERT INTO `#_tasks` SET content=?, projects=?, contexts=?, priority=?, due=?, created=?, uid=?, list=?', 'ssssssii', $content, $projects, $contexts, $priority, $due, $created, Users::$user->id, $list);
+				$e = $d->prepared('INSERT INTO `#_tasks` SET content=?, projects=?, contexts=?, priority=?, due=?, created=?, uid=?, list=?, done=?', 'ssssssiis', $content, $projects, $contexts, $priority, $due, $created, Users::$user->id, $list, $done);
 				$id = $d->insert_id;
 			} else {
-				$d->prepared('UPDATE `#_tasks` SET content=?, projects=?, contexts=?, priority=?, due=?, created=? WHERE id=?', 'ssssssi', $content, $projects, $contexts, $priority, $due, $created, $id);
+				$d->prepared('UPDATE `#_tasks` SET content=?, projects=?, contexts=?, priority=?, due=?, created=?, done=? WHERE id=?', 'sssssssi', $content, $projects, $contexts, $priority, $due, $created, $done, $id);
 			}
-			return array(
+			return (object) array(
 				'content' => $content,
 				'created' => $created,
 				'projects' => $projects,

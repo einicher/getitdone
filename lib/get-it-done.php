@@ -140,38 +140,34 @@
 						}
 					break;
 					case 'change-task-content':
+					case 'set-task-done':
+					case 'set-task-undone':
 						if (!empty($levels[3])) {
-							$task = GetItDone_Api::saveTask($_POST['content'], $levels[3]);
+							if (empty($_POST['content'])) {
+								$content = $this->d->prepared('SELECT * FROM `#_tasks` WHERE id=?', 'i', $levels[3])->content;
+							} else {
+								$content = $_POST['content'];
+							}
+
+							if ($levels[2] == 'set-task-done') {
+								$content = 'x '.date('Y-m-d').' '.date('H:i:s').' '.$content;
+							}
+							if ($levels[2] == 'set-task-undone') {
+								$content = GetItDone_List::detectDone($content, false);
+								$content = $content[0];
+							}
+
+							$task = GetItDone_Api::saveTask($content, $levels[3]);
+
 							return json_encode(array(
-								'content' => GetItDone_List::detectSyntax($task['content']),
-								'created' => $task['created']
+								'content' => GetItDone_List::detectSyntax($content),
+								'created' => $task->created
 							));
 						}
 					break;
 					case 'delete-task':
 						if (!empty($levels[3])) {
 							$this->d->prepared('DELETE FROM `#_tasks` WHERE id=?', 'i', $levels[3]);
-						}
-					break;
-					case 'set-task-done':
-						if (!empty($levels[3])) {
-							$this->d->prepared('UPDATE `#_tasks` SET done=NOW(), content=CONCAT(content, " DONE:", NOW()) WHERE id=?', 'i', $levels[3]);
-							$task = $this->d->prepared('SELECT * FROM `#_tasks` WHERE id=?', 'i', $levels[3]);
-							return json_encode(array(
-								'content' => GetItDone_List::detectSyntax($task->content),
-								'created' => $task->created
-							));
-						}
-					break;
-					case 'set-task-undone':
-						if (!empty($levels[3])) {
-							$task = $this->d->prepared('SELECT * FROM `#_tasks` WHERE id=?', 'i', $levels[3]);
-							$content = GetItDone_List::removeDoneTag($task->content);
-							$this->d->prepared('UPDATE `#_tasks` SET done=0, content=? WHERE id=?', 'si', $content, $levels[3]);
-							return json_encode(array(
-								'content' => GetItDone_List::detectSyntax($content),
-								'created' => $task->created
-							));
 						}
 					break;
 					case 'suggest-projects':
