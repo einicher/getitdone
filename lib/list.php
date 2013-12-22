@@ -82,7 +82,7 @@
 			return $tasks;
 		}
 
-		function view($levels, $level, $readonly = true)
+		function view($levels, $level, $readonly = false)
 		{
 			$lnt = '';
 			$export = '';
