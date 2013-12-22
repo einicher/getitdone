@@ -57,6 +57,18 @@
 			} else {
 				$sql .= ' && done!="0000-00-00 00:00:00"';
 			}
+			if (!empty($_GET['projects'])) {
+				$projects = preg_split('/,/', $_GET['projects'], -1, PREG_SPLIT_NO_EMPTY);
+				foreach ($projects as $project) {
+					$sql .= ' && FIND_IN_SET("'.$this->d->escape($project).'", projects)';
+				}
+			}
+			if (!empty($_GET['contexts'])) {
+				$contexts = preg_split('/,/', $_GET['contexts'], -1, PREG_SPLIT_NO_EMPTY);
+				foreach ($contexts as $context) {
+					$sql .= ' && FIND_IN_SET("'.$this->d->escape($context).'", contexts)';
+				}
+			}
 			$sql = 'SELECT *,IF(priority="","ZZ",priority) orderPrio,IF(due=0,"9999-12-31 00:00:00",due) orderDue FROM `#_tasks` WHERE uid='.$this->uid.$sql.' ORDER BY orderPrio ASC, `orderDue` ASC, `created` DESC';
 			//echo µ($sql);
 

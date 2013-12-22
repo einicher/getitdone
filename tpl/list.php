@@ -48,7 +48,7 @@
 			<td><button class="btn btn-primary form-control" type="submit"><?=§('Add')?></button></td>
 		</tr>
 	</table>
-	<div class="form-group" style="margin: 0; line-height: 0;">
+	<div class="form-group" style="height: 0; margin: 0; line-height: 0;">
 		<input type="text" id="datepickerSucksTop" style="height: 0; padding: 0; border: 0;" />
 	</div>
 	<script type="text/javascript">
@@ -81,6 +81,94 @@
 	</script>
 </form>
 
+<?
+	$GLOBALS['getProjects'] = preg_split('/,/', @$_GET['projects'], -1, PREG_SPLIT_NO_EMPTY);
+	$GLOBALS['getContexts'] = preg_split('/,/', @$_GET['contexts'], -1, PREG_SPLIT_NO_EMPTY);
+
+	function createFilterLink($add = '', $type = 0, $remove = false)
+	{
+		$projects = $GLOBALS['getProjects'];
+		$contexts = $GLOBALS['getContexts'];
+
+		if (!empty($add)) {
+			if ($remove) {
+				if ($type == 0) {
+					if (($key = array_search($add, $projects)) !== false) {
+						unset($projects[$key]);
+					}
+				} else {
+					if (($key = array_search($add, $contexts)) !== false) {
+						unset($contexts[$key]);
+					}
+				}
+			} else {
+				if ($type == 0) {
+					$projects[] = $add;
+				} else {
+					$contexts[] = $add;
+				}
+			}
+		}
+
+		$query = array();
+		if (!empty($projects)) {
+			$query['projects'] = implode(',', $projects);
+		}
+		if (!empty($contexts)) {
+			$query['contexts'] = implode(',', $contexts);
+		}
+
+		return '?'.http_build_query($query);
+	}
+	
+	$projects = array();
+	$contexts = array();
+?>
+<div class="filters">
+<?
+		foreach ($tasks as $task) {
+			 $p = explode(',', $task->projects);
+			 foreach ($p as $project) {
+			 	if (!empty($project) && !in_array($project, $projects)) {
+			 		$projects[] = $project;
+			 	}
+			 }
+			 $c = explode(',', $task->contexts);
+			 foreach ($c as $context) {
+			 	if (!empty($context) && !in_array($context, $contexts)) {
+			 		$contexts[] = $context;
+			 	}
+			 }
+		}
+		if (!empty($projects)) :
+?>
+	<div class="filter clearfix">
+		<span class="filterLabel">Filter by projects:</span>
+		<span class="filterBody"><? foreach ($projects as $project) : if (!in_array($project, $GLOBALS['getProjects'])) : ?> <a href="<?=createFilterLink($project, 0)?>" class="label label-info"><?=$project?></a> <? endif; endforeach; ?></span>
+	</div>
+<?
+		endif;
+		if (!empty($contexts)) :
+?>
+	<div class="filter clearfix">
+		<span class="filterLabel">Filter by contexts:</span>
+		<span class="filterBody"><? foreach ($contexts as $context) : if (!in_array($context, $GLOBALS['getContexts'])) : ?> <a href="<?=createFilterLink($context, 1)?>" class="label label-warning"><?=$context?></a> <? endif; endforeach; ?></span>
+	</div>
+<?
+		endif;
+?>
+<? if (!empty($GLOBALS['getProjects']) || !empty($GLOBALS['getContexts'])) : ?>
+	<div class="filtered">
+		Filtered by:
+	<? foreach ($GLOBALS['getProjects'] as $gp) : ?>
+		<a href="<?=createFilterLink($gp, 0, 1)?>" class="label label-info">p:<?=$gp?></a>
+	<? endforeach; ?>
+	<? foreach ($GLOBALS['getContexts'] as $gc) : ?>
+		<a href="<?=createFilterLink($gc,1, 1)?>" class="label label-warning">c:<?=$gc?></a>
+	<? endforeach; ?>
+	</div>
+<? endif; ?>
+</div>
 
 <div class="row-fluid">
 	<table class="tasks table table-striped table-condensed">

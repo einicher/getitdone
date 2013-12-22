@@ -53,3 +53,16 @@ h1 { margin: 0 0 20px 0; line-height: 100%; }
 
 .swipeControl { cursor: pointer; display: block; font-size: 24px !important; padding: 2px 0; }
 dl dd { margin: 0 0 10px 0; }
+
+.filters { margin: -20px 0 20px 0; }
+
+.filtered a:hover { text-decoration: line-through !important; }
+.filtered { color: #CCC; background: #222; padding: 5px 10px; border-radius: 3px; }
+
+.filterLabel { width: 11%; float: left; }
+.filterBody { width: 89%; float: left; }
+
+.filter { margin: 0 0 5px 0; }
+
+
+
