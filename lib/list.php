@@ -82,7 +82,7 @@
 			return $tasks;
 		}
 
-		function view($levels, $level)
+		function view($levels, $level, $readonly = true)
 		{
 			$lnt = '';
 			$export = '';
@@ -106,7 +106,8 @@
 				'tasks' => $this->getTasks(),
 				'list' => &$this,
 				'listNewTask' => $lnt,
-				'export' => $export
+				'export' => $export,
+				'readonly' => $readonly 
 			));
 		}
 

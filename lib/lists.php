@@ -81,6 +81,36 @@
 			));
 		}
 
+		function hash($levels, $level)
+		{
+			if (empty($levels[2])) {
+				return 'Hash needed.';
+			} else {
+				$l = $this->d->prepared('SELECT id FROM `#_lists` WHERE hash=?', 's', $levels[2]);
+				if (empty($l)) {
+					return §('Hash %s not found. Maybe the link was broken or the owner reset the link.', '<b>'.$levels[2].'</b>');
+				} else {
+					$list = new GetItDone_List(array('id' => $l->id));
+					return $list->view($levels, $level, true);
+				}
+			}
+		}
+
+		function share($levels, $level)
+		{
+			$list = $this->d->prepared('SELECT * FROM `#_lists` WHERE id=?', 'i', $levels[2]);
+			if (empty($list->hash) || isset($_GET['reset'])) {
+				$list->hash = uniqid();
+				$this->d->prepared('UPDATE `#_lists` SET hash=? WHERE id=?', 'si', $list->hash, $levels[2]);
+				if (isset($_GET['reset'])) {
+					header('Location: '.$this->link->getCurrent());
+				}
+			}
+			return $this->t->get('list-share.php', array(
+				'list' => $list
+			));
+		}
+
 		function import($levels, $level)
 		{
 			$error = '';

@@ -47,6 +47,9 @@
 			$this->link->assign('getItDone.contexts.context.export', 'export', array('GetItDone_Contexts::instance', 'context'), 'getItDone.contexts.context');
 			$this->link->assign('getItDone.contexts.context.rename', 'rename', array('GetItDone_Contexts::instance', 'rename'), 'getItDone.contexts.context');
 
+			$this->link->assign('getItDone.hash', 'hash', array('GetItDone_Lists::instance', 'hash'), 'getItDone');
+			$this->link->assign('getItDone.hash.hash', '*', array('GetItDone_Lists::instance', 'hash'), 'getItDone.hash');
+			
 			$this->link->assign('getItDone.lists', 'lists', array('GetItDone_Lists::instance', 'lists'), 'getItDone');
 			$this->link->assign('getItDone.lists.create', 'create', array('GetItDone_Lists::instance', 'createList'), 'getItDone.lists');
 			$this->link->assign('getItDone.lists.import', 'import', array('GetItDone_Lists::instance', 'import'), 'getItDone.lists');
@@ -54,6 +57,7 @@
 			$this->link->assign('getItDone.lists.list.export', 'export', array('GetItDone_Lists::instance', 'getList'), 'getItDone.lists.list');
 			$this->link->assign('getItDone.lists.list.edit', 'edit', array('GetItDone_Lists::instance', 'editList'), 'getItDone.lists.list');
 			$this->link->assign('getItDone.lists.list.delete', 'delete', array('GetItDone_Lists::instance', 'getList'), 'getItDone.lists.list');
+			$this->link->assign('getItDone.lists.list.share', 'share', array('GetItDone_Lists::instance', 'share'), 'getItDone.lists.list');
 
 			$this->link->assign('getItDone.syntax', 'syntax', array(&$this, 'syntax'), 'getItDone');
 
@@ -73,6 +77,7 @@
 				&& substr($path, 0, 3) != 'api'
 				&& substr($path, 0, 8) != 'password'
 				&& substr($path, 0, 6) != 'syntax'
+				&& substr($path, 0, 4) != 'hash'
 			) {
 				return false;
 			} else {
@@ -86,6 +91,7 @@
 			 && @$levels[1] != Scs_Link::$assignments['users.preferences.password']['link']
 			 && @$levels[1] != Scs_Link::$assignments['getItDone.api']['link']
 			 && @$levels[1] != Scs_Link::$assignments['getItDone.syntax']['link']
+			 && @$levels[1] != Scs_Link::$assignments['getItDone.hash']['link']
 			) {
 				$signUp = '';
 				$login = '';

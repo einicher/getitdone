@@ -1,6 +1,6 @@
 <div id="taskList">
 
-<? if (!empty($list->id)) : ?>
+<? if (!empty($list->id) && !$readonly) : ?>
 <a href="<?=$this->link->get('getItDone.lists.list.edit', $list->id)?>" class="btn btn-default pull-right"><?=§('Edit')?></a>
 <? endif; ?>
 
@@ -21,7 +21,7 @@
 	elseif (empty($list->id)) :
 		echo $list->name;
 	else :
-		echo §('List %s', '<a href="'.$this->link->get('getItDone.lists.list', $list->id).'" class="label label-success">'.$list->name.'</a>');
+		echo §('List %s', $readonly ? '<a href="'.$this->link->get('getItDone.hash.hash', $list->hash).'" class="label label-success">'.$list->name.'</a>' : '<a href="'.$this->link->get('getItDone.lists.list', $list->id).'" class="label label-success">'.$list->name.'</a>');
 	endif;
 
 ?></h1>
@@ -32,14 +32,15 @@
 			<a class="btn btn-default<?= !empty(Users::$user->settings->status) && Users::$user->settings->status == 1 ? ' active' : '' ?>" href="?setting=status&value=1"><?=§('Done')?></a>
 			<a class="btn btn-default<?= empty(Users::$user->settings->status) ? ' active' : '' ?>" href="?setting=status&value=0"><?=§('Undone')?></a>
 		</div>
-<? if ($list->id) : ?>
+<? if ($list->id && !$readonly) : ?>
 		<a class="btn btn-default" href="<?=$this->link->get('getItDone.lists.list.delete', $list->id)?>"><?=§('Delete')?></a>
+		<a class="btn btn-default" href="<?=$this->link->get('getItDone.lists.list.share', $list->id)?>"><?=§('Share')?></a>
 <? endif; ?>
-<? if ($export) : ?>
+<? if ($export && !$readonly) : ?>
 		<a class="btn btn-default pull-right" href="<?=$export?>"><?=§('Export')?></a>
 <? endif; ?>
 </div>
-
+<? if (!$readonly) : ?>
 <form id="taskListForm" method="post" action="" class="form-inline hidden-print clearfix">
 	<textarea name="listNewTask" id="listNewTask" class="form-control" style="display: block; width: 100%;" rows="3" placeholder="<?=§('Enter your to do here and hit return..')?>" autofocus="autofocus"><?=$listNewTask?></textarea>
 	<table class="input-group" width="100%">
@@ -80,7 +81,9 @@
 		});
 	</script>
 </form>
-
+<? else : ?>
+<br />
+<? endif; ?>
 <?
 	$GLOBALS['getProjects'] = preg_split('/,/', @$_GET['projects'], -1, PREG_SPLIT_NO_EMPTY);
 	$GLOBALS['getContexts'] = preg_split('/,/', @$_GET['contexts'], -1, PREG_SPLIT_NO_EMPTY);
@@ -173,7 +176,9 @@
 <div class="row-fluid">
 	<table class="tasks table table-striped table-condensed">
 		<tr>
+<? if (!$readonly) : ?>
 			<th class="hidden-xs"><?=§('Controls')?></th>
+<? endif; ?>
 			<th><?=§('Task')?></th>
 			<th class="hidden-xs"><?=§('Created')?></th>
 		</tr>
@@ -181,6 +186,7 @@
 <? foreach ($tasks as $task) : ?>
 
 		<tr class="task<?=$task->done > 0 ? ' done' : ''?>" id="task-<?=$task->id?>">
+<? if (!$readonly) : ?>
 			<td class="controls hidden-xs">
 				<span class="glyphicon <?=$task->done > 0 ? 'glyphicon-repeat task-undone' : 'glyphicon-ok task-done' ?>" title="<?=$task->done > 0 ? §('Undone') : §('Done') ?>"></span>
 				<span class="task-edit glyphicon glyphicon-edit" title="<?=§('Edit')?>"></span>
@@ -193,6 +199,7 @@
 				<div class="swipeControl task-remove"><span class="glyphicon glyphicon-trash"></span> <?=§('Delete')?></div>
 				<div class="swipeControl task-move"><span class="glyphicon glyphicon-export"></span> <?=§('Move')?></div>
 			</td>
+<? endif; ?>
 			<td class="content"><?=$list->detectSyntax($task->content)?></td>
 			<td class="created hidden-xs"><?=date(§('Y-m-d H:i'), strtotime($task->created))?></td>
 		</tr>
@@ -201,6 +208,7 @@
 
 	</table>
 </div>
+<? if (!$readonly) : ?>
 <div id="hiddenTaskEditForm" style="display: none;">
 	<div class="form-group">
 		<textarea name="task" class="form-control"></textarea>
@@ -415,5 +423,5 @@
 		}
 	});
 </script>
-
+<? endif; ?>
 </div>
